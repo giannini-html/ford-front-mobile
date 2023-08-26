@@ -11,20 +11,10 @@ on:
       - main
 
 jobs:
-job0:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-java@v1
-    with:
-      java-version: "12.x"
-    - uses: subosito/flutter-action@v1
-      with:
-        channel: "stable"
-    - run: flutter pub get
-      name: Building
     - uses: actions/checkout@v3
     - name: docker login
       run: docker login -u gianninidoc -p dckr_pat_aJwDJa1e8dNDHUtpBjq0IzjXcfI
@@ -32,20 +22,3 @@ job0:
       run: docker build -t gianninidoc/front-ford-mobile .
     - name: push to docker
       run: docker push gianninidoc/front-ford-mobile
-
-job1:
-  flutter_test:
-    name: Run Flutter analyze and test
-    runs-on: ubuntu-latest
-    
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-java@v1
-        with:
-          java-version: "12.x"
-      - uses: subosito/flutter-action@v1
-        with:
-          channel: "stable"
-      - run: flutter pub get
-
-      name: Building
