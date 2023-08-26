@@ -16,6 +16,15 @@ job0:
     runs-on: ubuntu-latest
 
     steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-java@v1
+    with:
+      java-version: "12.x"
+    - uses: subosito/flutter-action@v1
+      with:
+        channel: "stable"
+    - run: flutter pub get
+      name: Building
     - uses: actions/checkout@v3
     - name: docker login
       run: docker login -u gianninidoc -p dckr_pat_aJwDJa1e8dNDHUtpBjq0IzjXcfI
