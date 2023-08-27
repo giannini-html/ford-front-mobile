@@ -1,4 +1,3 @@
-import 'package:ford/models/tipo_veiculo.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 

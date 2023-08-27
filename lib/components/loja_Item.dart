@@ -1,9 +1,11 @@
-import 'package:ford/models/lojas.dart';
 import 'package:flutter/material.dart';
+
+import '../models/loja.dart';
 
 class LojaItem extends StatelessWidget {
   final Loja loja;
-  const LojaItem({super.key, required this.loja});
+  final void Function()? onTap;
+  const LojaItem({Key? key, required this.loja, this.onTap}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +28,7 @@ class LojaItem extends StatelessWidget {
           color: Color.fromARGB(255, 0, 0, 0),
         ),
       ),
+      onTap: onTap,
     );
   }
 }

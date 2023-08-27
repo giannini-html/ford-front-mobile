@@ -1,4 +1,4 @@
-import 'package:ford/models/tipo_veiculo.dart';
+
 import 'package:flutter/material.dart';
 
 class Loja {

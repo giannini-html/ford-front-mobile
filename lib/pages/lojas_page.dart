@@ -1,8 +1,8 @@
-import 'package:ford/models/lojas.dart';
+import 'package:ford/models/loja.dart';
 import 'package:ford/repository/loja_repository.dart';
 import 'package:flutter/material.dart';
 
-import '../components/loja_Item.dart';
+import '../components/loja_item.dart';
 
 class LojasPage extends StatefulWidget {
   const LojasPage({super.key});
@@ -80,7 +80,13 @@ class _LojasPageState extends State<LojasPage> {
           itemCount: lojas.length,
           itemBuilder: (context, index) {
             final loja = lojas[index];
-            return LojaItem(loja: loja);
+            return LojaItem(
+              loja: loja,
+              onTap: () {
+                Navigator.pushNamed(context, '/lojas-detalhes',
+                    arguments: loja);
+              },
+            );
           },
           separatorBuilder: (context, index) {
             return const Divider();

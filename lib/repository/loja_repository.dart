@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ford/models/lojas.dart';
+import 'package:ford/models/loja.dart';
 
 class LojaRepository {
   List<Loja> listarLojas() {

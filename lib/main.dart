@@ -1,6 +1,7 @@
 import 'package:ford/pages/cadastro_page.dart';
 import 'package:ford/pages/home_page.dart';
 import 'package:ford/pages/login_page.dart';
+import 'package:ford/pages/lojas_detalhes_page.dart';
 import 'package:ford/pages/veiculos_detalhes_page.dart';
 
 import 'package:flutter/material.dart';
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
       routes: {
         "/": (context) => const HomePage(),
         "/veiculos-detalhes": (context) => const VeiculoDetalhesPage(),
+        "/lojas-detalhes": (context) => const LojaDetalhesPage(),
         "/login": (context) => const LoginPage(),
         "/cadastro": (context) => CadastroPage(),
       },
