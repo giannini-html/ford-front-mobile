@@ -8,86 +8,144 @@ class CadastroPage extends StatefulWidget {
 }
 
 class CadastroPageState extends State<CadastroPage> {
-  late String _name;
-  late String _email;
-  late String _password;
-  late String _url;
-  late String _phoneNumber;
-  late String _calories;
-
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   Widget _buildName() {
     return TextFormField(
-      decoration: InputDecoration(labelText: 'Nome'),
-      maxLength: 10,
-      validator: (value) {
-        if (value!.isEmpty) {
-          return 'Nome obrigatório';
-        }
+        decoration: InputDecoration(labelText: 'Nome'),
+        maxLength: 10,
+        validator: (value) {
+          if (value!.isEmpty) {
+            return 'Nome obrigatório';
+          }
 
-        return null;
-      },
-      onSaved: (value) {
-        _name = value!;
-      },
-    );
+          return null;
+        });
   }
 
   Widget _buildEmail() {
     return TextFormField(
-      decoration: InputDecoration(labelText: 'Email'),
-      validator: (value) {
-        if (value!.isEmpty) {
-          return 'Email obrigatório';
-        }
+        decoration: InputDecoration(labelText: 'Email'),
+        validator: (value) {
+          if (value!.isEmpty) {
+            return 'Email obrigatório';
+          }
 
-        if (!RegExp(
-                r"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
-            .hasMatch(value)) {
-          return 'Por favor insira um email';
-        }
+          if (!RegExp(
+                  r"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
+              .hasMatch(value)) {
+            return 'Por favor insira um email';
+          }
 
-        return null;
-      },
-      onSaved: (value) {
-        _email = value!;
-      },
-    );
+          return null;
+        });
   }
 
   Widget _buildPassword() {
     return TextFormField(
-      decoration: InputDecoration(labelText: 'Senha'),
-      keyboardType: TextInputType.visiblePassword,
-      validator: (value) {
-        if (value!.isEmpty) {
-          return 'Senha obrigatória';
-        }
+        decoration: InputDecoration(labelText: 'Senha'),
+        keyboardType: TextInputType.visiblePassword,
+        validator: (value) {
+          if (value!.isEmpty) {
+            return 'Senha obrigatória';
+          }
 
-        return null;
-      },
-      onSaved: (value) {
-        _password = value!;
-      },
-    );
+          return null;
+        });
   }
 
   Widget _buildPhoneNumber() {
     return TextFormField(
-      decoration: InputDecoration(labelText: 'Número de Telefone'),
-      keyboardType: TextInputType.phone,
-      validator: (value) {
-        if (value!.isEmpty) {
-          return 'Número obrigatório';
-        }
+        decoration: InputDecoration(labelText: 'Número de Telefone'),
+        keyboardType: TextInputType.phone,
+        validator: (value) {
+          if (value!.isEmpty) {
+            return 'Número obrigatório';
+          }
 
-        return null;
-      },
-      onSaved: (value) {
-        _url = value!;
-      },
-    );
+          return null;
+        });
+  }
+
+  Widget _buildCep() {
+    return TextFormField(
+        decoration: InputDecoration(labelText: 'CEP'),
+        keyboardType: TextInputType.text,
+        validator: (value) {
+          if (value!.isEmpty) {
+            return 'CEP obrigatório';
+          }
+
+          return null;
+        });
+  }
+
+  Widget _buildEstado() {
+    return TextFormField(
+        enabled: false,
+        decoration: InputDecoration(labelText: 'Estado'),
+        keyboardType: TextInputType.text,
+        validator: (value) {
+          if (value!.isEmpty) {
+            return 'Estado obrigatório';
+          }
+
+          return null;
+        });
+  }
+
+  Widget _buildCidade() {
+    return TextFormField(
+        enabled: false,
+        decoration: InputDecoration(labelText: 'Cidade'),
+        keyboardType: TextInputType.text,
+        validator: (value) {
+          if (value!.isEmpty) {
+            return 'Cidade obrigatório';
+          }
+
+          return null;
+        });
+  }
+
+  Widget _buildRua() {
+    return TextFormField(
+        enabled: false,
+        decoration: InputDecoration(labelText: 'Rua'),
+        keyboardType: TextInputType.text,
+        validator: (value) {
+          if (value!.isEmpty) {
+            return 'Rua obrigatório';
+          }
+
+          return null;
+        });
+  }
+
+  Widget _buildNumero() {
+    return TextFormField(
+        decoration: InputDecoration(labelText: 'Número'),
+        keyboardType: TextInputType.number,
+        validator: (value) {
+          if (value!.isEmpty) {
+            return 'Rua obrigatório';
+          }
+
+          return null;
+        });
+  }
+
+  Widget _buildComplemento() {
+    return TextFormField(
+        decoration: InputDecoration(labelText: 'Complemento'),
+        keyboardType: TextInputType.text,
+        validator: (value) {
+          if (value!.isEmpty) {
+            return 'Rua obrigatório';
+          }
+
+          return null;
+        });
   }
 
   @override
@@ -106,9 +164,15 @@ class CadastroPageState extends State<CadastroPage> {
                 _buildEmail(),
                 _buildPassword(),
                 _buildPhoneNumber(),
-                SizedBox(height: 100),
+                _buildCep(),
+                _buildEstado(),
+                _buildCidade(),
+                _buildRua(),
+                _buildNumero(),
+                _buildComplemento(),
+                const SizedBox(height: 100),
                 InkWell(
-                  child: ButtonBar(children: [
+                  child: const ButtonBar(children: [
                     Text(
                       'Submit',
                       style: TextStyle(
@@ -124,13 +188,6 @@ class CadastroPageState extends State<CadastroPage> {
                     }
 
                     _formKey.currentState!.save();
-
-                    print(_name);
-                    print(_email);
-                    print(_phoneNumber);
-                    print(_url);
-                    print(_password);
-                    print(_calories);
                   },
                 )
               ],
