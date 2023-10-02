@@ -1,24 +1,21 @@
-
-import 'package:flutter/material.dart';
+import 'package:ford/models/result_endereco.dart';
 
 class Loja {
   int id;
   String nome;
-  String estado;
-  String cidade;
-  String bairro;
-  Color cor = Color.fromARGB(255, 81, 57, 216);
-  IconData icone;
+  ResultEndereco endereco;
 
   Loja({
     required this.id,
     required this.nome,
-    required this.cor,
-    required this.estado,
-    required this.cidade,
-    required this.bairro,
-    required this.icone,
+    required this.endereco,
   });
-}
 
-enum EstadoLoja { SP, RJ, RS }
+  factory Loja.fromMap(Map<String, dynamic> map) {
+    return Loja(
+      id: map["id"],
+      nome: map["nome"],
+      endereco: map["endereco"],
+    );
+  }
+}

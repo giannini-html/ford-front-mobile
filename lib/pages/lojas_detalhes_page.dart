@@ -23,15 +23,15 @@ class _LojaDetalhesPageState extends State<LojaDetalhesPage> {
           children: [
             ListTile(
               title: const Text('Estado'),
-              subtitle: Text(loja.estado),
+              subtitle: Text('loja.estado'),
             ),
             ListTile(
               title: const Text('Cidade'),
-              subtitle: Text(loja.cidade),
+              subtitle: Text('loja.cidade'),
             ),
             ListTile(
               title: const Text('Bairro'),
-              subtitle: Text(loja.bairro),
+              subtitle: Text('loja.bairro'),
             ),
           ],
         ),

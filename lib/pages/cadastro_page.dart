@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:ford/repository/auth_repository.dart';
+import 'package:ford/services/endereco_service.dart';
 
 class CadastroPage extends StatefulWidget {
   @override
@@ -8,10 +10,26 @@ class CadastroPage extends StatefulWidget {
 }
 
 class CadastroPageState extends State<CadastroPage> {
+  bool _loading = false;
+  bool _enableField = true;
+  late String _result = "";
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  final nomeController = TextEditingController();
+  final sobrenomeController = TextEditingController();
+  final emailController = TextEditingController();
+  final senhaController = TextEditingController();
+  final cpfController = TextEditingController();
+  final cepController = TextEditingController();
+  final estadoController = TextEditingController();
+  final cidadeController = TextEditingController();
+  final ruaController = TextEditingController();
+  final numeroController = TextEditingController();
+  final complementoController = TextEditingController();
 
   Widget _buildName() {
     return TextFormField(
+        controller: nomeController,
         decoration: InputDecoration(labelText: 'Nome'),
         maxLength: 10,
         validator: (value) {
@@ -25,6 +43,7 @@ class CadastroPageState extends State<CadastroPage> {
 
   Widget _buildEmail() {
     return TextFormField(
+        controller: emailController,
         decoration: InputDecoration(labelText: 'Email'),
         validator: (value) {
           if (value!.isEmpty) {
@@ -43,6 +62,7 @@ class CadastroPageState extends State<CadastroPage> {
 
   Widget _buildPassword() {
     return TextFormField(
+        controller: senhaController,
         decoration: InputDecoration(labelText: 'Senha'),
         keyboardType: TextInputType.visiblePassword,
         validator: (value) {
@@ -54,13 +74,14 @@ class CadastroPageState extends State<CadastroPage> {
         });
   }
 
-  Widget _buildPhoneNumber() {
+  Widget _buildCpf() {
     return TextFormField(
-        decoration: InputDecoration(labelText: 'Número de Telefone'),
-        keyboardType: TextInputType.phone,
+        controller: cpfController,
+        decoration: InputDecoration(labelText: 'CPF'),
+        keyboardType: TextInputType.text,
         validator: (value) {
           if (value!.isEmpty) {
-            return 'Número obrigatório';
+            return 'CPF obrigatório';
           }
 
           return null;
@@ -69,6 +90,7 @@ class CadastroPageState extends State<CadastroPage> {
 
   Widget _buildCep() {
     return TextFormField(
+        controller: cepController,
         decoration: InputDecoration(labelText: 'CEP'),
         keyboardType: TextInputType.text,
         validator: (value) {
@@ -82,6 +104,7 @@ class CadastroPageState extends State<CadastroPage> {
 
   Widget _buildEstado() {
     return TextFormField(
+        controller: estadoController,
         enabled: false,
         decoration: InputDecoration(labelText: 'Estado'),
         keyboardType: TextInputType.text,
@@ -96,6 +119,7 @@ class CadastroPageState extends State<CadastroPage> {
 
   Widget _buildCidade() {
     return TextFormField(
+        controller: cidadeController,
         enabled: false,
         decoration: InputDecoration(labelText: 'Cidade'),
         keyboardType: TextInputType.text,
@@ -110,6 +134,7 @@ class CadastroPageState extends State<CadastroPage> {
 
   Widget _buildRua() {
     return TextFormField(
+        controller: ruaController,
         enabled: false,
         decoration: InputDecoration(labelText: 'Rua'),
         keyboardType: TextInputType.text,
@@ -124,6 +149,7 @@ class CadastroPageState extends State<CadastroPage> {
 
   Widget _buildNumero() {
     return TextFormField(
+        controller: numeroController,
         decoration: InputDecoration(labelText: 'Número'),
         keyboardType: TextInputType.number,
         validator: (value) {
@@ -137,6 +163,7 @@ class CadastroPageState extends State<CadastroPage> {
 
   Widget _buildComplemento() {
     return TextFormField(
+        controller: complementoController,
         decoration: InputDecoration(labelText: 'Complemento'),
         keyboardType: TextInputType.text,
         validator: (value) {
@@ -146,6 +173,70 @@ class CadastroPageState extends State<CadastroPage> {
 
           return null;
         });
+  }
+
+  Widget _buildSearchCepButton() {
+    return Padding(
+      padding: const EdgeInsets.only(top: 20.0),
+      child: MenuItemButton(
+        onPressed: _searchCep,
+        child: _loading ? _circularLoading() : Text('Consultar'),
+      ),
+    );
+  }
+
+  void _exibirMensagem(String mensagem) {
+    final snackbar = SnackBar(content: Text(mensagem));
+    ScaffoldMessenger.of(context).showSnackBar(snackbar);
+  }
+
+  void onTapBtnRegistrar() {
+    if (_formKey.currentState!.validate()) {
+      final repo = AuthRepository();
+      repo
+          .registrar(emailController.text, senhaController.text)
+          .then((sucesso) {
+        if (sucesso) {
+          Navigator.pushReplacementNamed(context, "/home");
+        } else {
+          _exibirMensagem("E-mail já cadastrado");
+        }
+      }).catchError((e) {
+        _exibirMensagem(e.toString());
+      });
+    }
+  }
+
+  void _searching(bool enable) {
+    setState(() {
+      _result = enable ? '' : _result;
+      _loading = enable;
+      _enableField = !enable;
+    });
+  }
+
+  Widget _circularLoading() {
+    return Container(
+      height: 15.0,
+      width: 15.0,
+      child: CircularProgressIndicator(),
+    );
+  }
+
+  Future _searchCep() async {
+    _searching(true);
+
+    final cep = cepController.text;
+
+    final resultCep = await EnderecoService.fetchCep(cep: cep);
+
+    setState(() {
+      estadoController.text = resultCep.uf;
+      cidadeController.text = resultCep.localidade;
+      ruaController.text = resultCep.logradouro;
+    });
+
+    _searching(false);
   }
 
   @override
@@ -163,8 +254,9 @@ class CadastroPageState extends State<CadastroPage> {
                 _buildName(),
                 _buildEmail(),
                 _buildPassword(),
-                _buildPhoneNumber(),
+                _buildCpf(),
                 _buildCep(),
+                _buildSearchCepButton(),
                 _buildEstado(),
                 _buildCidade(),
                 _buildRua(),
@@ -174,7 +266,7 @@ class CadastroPageState extends State<CadastroPage> {
                 InkWell(
                   child: const ButtonBar(children: [
                     Text(
-                      'Submit',
+                      'Cadastrar-se',
                       style: TextStyle(
                           color: Colors.blue,
                           fontSize: 18,
@@ -184,6 +276,7 @@ class CadastroPageState extends State<CadastroPage> {
                   onTap: () {
                     //Enviar a api challange
                     if (!_formKey.currentState!.validate()) {
+                      onTapBtnRegistrar();
                       return;
                     }
 

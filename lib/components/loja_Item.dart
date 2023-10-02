@@ -11,9 +11,8 @@ class LojaItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       leading: CircleAvatar(
-        backgroundColor: loja.cor,
         child: Icon(
-          loja.icone,
+          Icons.home,
           size: 20,
           color: Colors.white,
         ),
@@ -22,7 +21,7 @@ class LojaItem extends StatelessWidget {
         loja.nome,
       ),
       trailing: Text(
-        loja.bairro,
+        loja.endereco.localidade,
         style: TextStyle(
           fontSize: 14,
           color: Color.fromARGB(255, 0, 0, 0),
